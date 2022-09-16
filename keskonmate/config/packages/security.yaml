@@ -1,0 +1,97 @@
+security:
+    enable_authenticator_manager: true
+    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'bcrypt'
+        App\Entity\User:
+            algorithm: auto
+
+    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+    providers:
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email        
+
+    firewalls:
+
+        login:
+            pattern: ^/api/login
+            stateless: true
+            json_login:
+                check_path: /api/login
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        api:
+            pattern:   ^/api
+            stateless: true
+            jwt: ~
+
+
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+
+        main:
+            lazy: true
+            provider: app_user_provider
+            form_login:
+                    login_path: login
+                    check_path: login
+                    enable_csrf: true
+                    target_path_parameter: go_to
+            logout:
+                path: app_logout
+                target: /backoffice
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#the-firewall
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+                
+    role_hierarchy:
+        ROLE_CATALOGUE_MANAGER: ROLE_USER
+        ROLE_ADMIN: ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/api/v1/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/v1/series, roles: PUBLIC_ACCESS }
+        - { path: ^/api/v1/genres, roles: PUBLIC_ACCESS }
+        - { path: ^/api/v1/actors, roles: PUBLIC_ACCESS }
+        - { path: ^/api/v1/seasons, roles: PUBLIC_ACCESS }
+        - { path: ^/api/v1/users/add, roles: PUBLIC_ACCESS }
+        - { path: ^/api/v1/users, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/v1/userlists, roles: IS_AUTHENTICATED_FULLY }
+    # ?-_-_-_-_-_-_-_-Actors routes-_-_-_-_-_-_-_-_
+    #     - { path: '^/actors/delete', roles: ROLE_ADMIN }
+    #     - { path: '^/actors/add', roles: ROLE_ADMIN }
+    #     - { path: '^/actors/edit/{id}', roles: ROLE_ADMIN }
+    #     - { path: '^/actors', roles: ROLE_CATALOGUE_MANAGER }
+    # ?-_-_-_-_-_-_-_-_Genres routes-_-_-_-_-_-_-_-_
+    #     - { path: '^/genres/delete', roles: ROLE_ADMIN }
+    #     - { path: '^/genres/add', roles: ROLE_ADMIN }
+    #     - { path: '^/genres/edit', roles: ROLE_ADMIN }
+    #     - { path: '^/genres', roles: ROLE_CATALOGUE_MANAGER }
+    # ?-_-_-_-_-_-_-_-_Seasons routes-_-_-_-_-_-_-_-_
+    #     - { path: '^/seasons/delete', roles: ROLE_ADMIN }
+    #     - { path: '^/seasons/add', roles: ROLE_ADMIN }
+    #     - { path: '^/seasons/edit', roles: ROLE_ADMIN }
+    #     - { path: '^/seasons', roles: ROLE_CATALOGUE_MANAGER }
+    # ?-_-_-_-_-_-_-_-_Series routes-_-_-_-_-_-_-_-_
+    #     - { path: '^/series/delete', roles: ROLE_ADMIN }        
+    #     - { path: '^/series/add', roles: ROLE_ADMIN }
+    #     - { path: '^/series/edit', roles: ROLE_ADMIN }
+    #     - { path: '^/series', roles: ROLE_CATALOGUE_MANAGER }
+    # ?-_-_-_-_-_-_-_-Users routes-_-_-_-_-_-_-_-_
+    #     - { path: '^/delete', roles: ROLE_SUPER_ADMIN }
+    #     - { path: '^/add', roles: ROLE_SUPER_ADMIN }
+    #     - { path: '^/edit', roles: ROLE_SUPER_ADMIN }
+    #     - { path: '^/', roles: ROLE_CATALOGUE_MANAGER }
+    

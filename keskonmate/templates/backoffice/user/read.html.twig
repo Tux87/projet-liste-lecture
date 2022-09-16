@@ -1,0 +1,60 @@
+{% extends "backoffice/base.html.twig" %}
+
+{% block title %}{{ parent() }} {% endblock %}
+
+{% block body %}
+<div class="container">
+<h1></h1>
+<div> 
+     <a href="{{ url('backoffice_users_browse') }}" class="btn btn-primary" alt="List" title="List">
+        Retour
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+    </a>  
+    <a href="{{ url('backoffice_users_edit', {"id": user.id}) }}" class="btn btn-success" alt="List" title="List">
+        Editer
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+    </a> 
+</div>
+
+<div class="d-flex justify-content-center">
+    <div class="d-flex shadow mb-5 bg-white rounded card col-5">
+        <article class="align-self-center card-body col-10">
+            <div class="form-group">
+                <label>Pseudo :</label>
+                <h6 class="card-header">{{ user.userNickname }}</h6>
+            </div>
+            <div class="form-group">
+                <label>Email :</label>
+                <h6 class="card-header">{{ user.email }}</h6>
+            </div>
+
+            {% if (is_granted('ROLE_SUPER_ADMIN')) %}
+            <div class="form-group">
+                <label>Mot de passe :</label>
+                <h6 class="card-header">{{ user.password }}</h6>
+            </div>
+            {% endif %}
+
+            <div>
+                <label>Role(s) :</label>
+                {{ form_row(user_form.roles) }}
+            </div>
+
+            <div class="card-footer d-flex flex-column justify-content-between bg-white">
+                <div class="mb-1">
+                    <p class="my-0 h6">Ajouté le : {{ user.createdAt|date("d/m/Y") }}</p>
+                </div>
+                <div>
+                    <p class="my-0 h6">Mis à jour le : {{ user.updatedAt|date("d/m/Y") }}</p>
+                </div>
+            </div>
+        </article>
+    </div>
+</div>
+
+</div>
+{% endblock %}

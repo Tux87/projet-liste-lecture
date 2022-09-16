@@ -1,0 +1,12 @@
+{% extends 'backoffice/base.html.twig' %}
+
+{% block title %} {{ parent() }}{% endblock %}
+
+
+{% block body %}
+<div class="container">
+{{ include('_partials/_flash_messages.html.twig') }}
+
+<h1>Bienvenue</h1>
+
+{% endblock %}

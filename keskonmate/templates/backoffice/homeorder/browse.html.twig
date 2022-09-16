@@ -1,0 +1,51 @@
+{% extends 'backoffice/back/main.html.twig' %}
+
+{% block title %}{{ parent() }}{% endblock %}
+
+
+{% block body %}
+<div class="container">
+{{ include('_partials/_flash_messages.html.twig') }}
+
+<h1>Series en page d'accueil</h1>
+
+<div class="text-end">
+</a>
+</div>
+<form method="post">
+  {% if errors is not empty %}
+    {% for error in errors %}
+      <p>{{error}}</p>
+    {% endfor %}
+  {% endif %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Emplacement</th>
+        <th scope="col">Modifer</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key in 0..4 %}
+          <tr>    
+            <th scope="row">{{ key + 1 }}</th>      
+            <td>      
+              <label for="homeOrder"></label>
+              <select name="homeOrder[{{key + 1}}]" id="homeOrder">
+                <option value="">Choisissez une série</option>
+                {% for seriess in series_all %}
+                  <option value="{{ seriess.id }}" {{ series_list[key] is defined and seriess.id == series_list[key].id ? ' selected="selected"' : '' }}>{{ seriess.title }}</option>
+                {% endfor %}
+              </select>
+            </td>
+          </tr> 
+      {% endfor %} 
+      
+    </tbody>
+  </table>
+  <button type="submit" class="btn btn-primary">
+    Mettre a jour
+  </button>
+</form>
+</div>
+{% endblock %}

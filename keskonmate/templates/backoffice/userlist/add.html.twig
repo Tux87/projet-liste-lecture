@@ -1,0 +1,81 @@
+{% extends 'backoffice/base.html.twig' %}
+
+{% block title %}
+    {% if page == 'create' %}
+    Ajouter une série à une liste
+    {% else %}
+    {# User {{ user.username }} #}
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    
+
+{{ include('_partials/_flash_messages.html.twig') }}
+<h1> 
+    {% if page == 'create' %}
+        Ajouter une série à une liste
+    {% else %}
+        Mettre a jour {{ userlist.id }}
+    {% endif %}
+</h1>
+<div> 
+     <a href="{{ url('backoffice_userlists_browse') }}" class="btn btn-primary" alt="List" title="List">
+        Retour
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+    </a>  
+</div>
+
+
+
+<div class="d-flex col-lg-12 col-sm-6">
+    <div class="card col-4 my-1 bg-white align-self-start">
+        <form name="userlist" method="post">
+{{ form_start(userlist_form) }}
+            <div class="card-header" >
+                <label >Utilisateur :</label>
+                {{ form_row(userlist_form.users) }}
+            </div>
+
+            <div class="card-header bg-white">
+                <label >Série :</label>
+                {{ form_row(userlist_form.series) }}
+            </div>
+
+            <div class="card-footer d-flex justify-content-around flex-column">
+                {{ form_row(userlist_form.seasonNb) }}   
+                {{ form_row(userlist_form.episodeNb) }}
+                {{ form_row(userlist_form.type) }}
+            </div>
+
+            {% if page != 'create' %}
+            <div class="card-footer d-flex justify-content-between bg-white">
+                <div>
+                    <p class="my-0 h6">Ajouté le : {{ userlist.createdAt|date("d/m/Y") }}</p> 
+                </div>
+                <div>
+                    <p class="my-0 h6">Mis à jour le : {{ userlist.updatedAt|date("d/m/Y") }}</p>
+                </div>
+            </div>
+            {% endif %}
+            {{ form_errors(userlist_form) }}
+            <button type="submit" class="btn btn-primary mt-2">
+            {% if 'backoffice_userlists_add' == app.request.get('_route') %}
+            Create
+            {% else %}
+            Update
+            {% endif %}
+            </button>
+        {{ form_end(userlist_form) }} 
+        </form>
+    </div>
+
+</div>
+
+
+
+</div>
+{% endblock %}

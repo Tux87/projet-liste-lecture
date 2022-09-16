@@ -1,0 +1,59 @@
+{% extends "backoffice/base.html.twig" %}
+
+{% block title %} {{ parent() }} {% endblock %}
+
+{% block body %}
+<div class="container">
+<h1></h1>
+<div>
+    <a href="{{ url('backoffice_userlists_browse') }}" class="btn btn-primary" alt="List" title="List">
+        Retour
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+        </svg>
+    </a>
+    <a href="{{ url('backoffice_userlists_edit', {"id": userlist.id}) }}" class="btn btn-success" alt="List" title="List">
+        Editer
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+    </a> 
+</div>
+
+<div class="d-flex col-lg-12 col-sm-6">
+    <div class="card col-4 my-1 bg-white align-self-start">
+
+        <div class="card-header">
+            <h5 >Utilisateur :</h5>
+            <a class="text-dark" href="{{ url('backoffice_users_read', {"id": userlist.users.id}) }}">
+                <h5>{{ userlist.users.userNickname }}</h5>
+            </a>
+        </div>
+
+        <div class="card-header">
+            <h5 >Série :</h5>
+            <a class="text-dark" href="{{ url('backoffice_series_read', {"id": userlist.series.id}) }}">
+                <h5>{{ userlist.series.title }}</h5>
+            </a>
+        </div>
+
+        <div class="card-footer d-flex justify-content-around flex-row">
+            <p class="my-0">Saison : {{ userlist.seasonNb }}</p>
+            <p class="my-0">Episode : {{ userlist.episodeNb }}</p>
+            <p class="my-0">Type : {{ userlist.type }}</p>
+        </div>
+        
+        <div class="card-footer d-flex justify-content-between bg-white">
+            <div>
+                <p class="my-0 h6">Ajouté le : {{ userlist.createdAt|date("d/m/Y") }}</p>
+            </div>
+            <div>
+                <p class="my-0 h6">Mis à jour le : {{ userlist.updatedAt|date("d/m/Y") }}</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "backoffice/base.html.twig" %}
+
+{% block title %} {{ parent() }} {% endblock %}
+
+{% block body %}
+<div class="container">
+<h1></h1>
+<div> 
+     <a href="{{ url('backoffice_genres_browse') }}" class="btn btn-primary" alt="List" title="List">
+        Retour
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+    </a>  
+    <a href="{{ url('backoffice_genres_edit', {"id": genre.id}) }}" class="btn btn-success" alt="List" title="List">
+        Editer
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+    </a>  
+</div>
+
+
+<div class="card col-3 my-1 bg-white align-self-start">
+    <h4 class="card-header">{{ genre.name }}</h4>
+    <div class="card-footer d-flex flex-column justify-content-between bg-white">
+        <div class="mb-1">
+            <p class="my-0 h6">Ajouté le : {{ genre.createdAt|date("d/m/Y") }}</p>
+        </div>
+        {% if genre.updatedAt != null %}
+        <div>
+            <p class="my-0 h6">Mis à jour le : {{ genre.updatedAt|date("d/m/Y") }}</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+<div>  
+    <p>Séries :</p>
+    {{ form_row(genre_form.series) }}
+<div>
+
+
+</div>
+{% endblock %}

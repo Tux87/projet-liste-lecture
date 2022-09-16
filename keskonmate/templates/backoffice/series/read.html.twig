@@ -1,0 +1,85 @@
+{% extends "backoffice/base.html.twig" %}
+
+{% block title %} {{ parent() }} {% endblock %}
+
+{% block body %}
+<div class="container mx-auto">
+    <div>
+        <a href="{{ url('backoffice_series_browse') }}" class="btn btn-primary" alt="List" title="List">
+            Retour
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+            </svg>
+        </a>
+        <a href="{{ url('backoffice_series_edit', {"id": series.id}) }}" class="btn btn-success" alt="List" title="List">
+        Editer
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+        </a> 
+    </div>
+    <div class="d-flex col-lg-12 col-sm-6">
+        <div class="card col-4 my-1 bg-white align-self-start">
+            <h6 class="card-header bg-white">Description de la série :</h6>
+            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                <img src="{{ series.image }}" class="img-fluid" />
+            </div>
+            <h4 class="card-header">{{ series.title }}</h4>
+            <div class="card-body">
+                <p class="card-text">{{ series.synopsis }}</p>
+                {% for genre in series.genre %}
+                <a class="text-decoration-none text-reset" href="{{ url('backoffice_genres_read', {"id": genre.id}) }}">
+                    <button class="btn btn-primary my-1 bg-info border-0">
+                        {{ genre.name }}
+                    </button>
+                </a>
+                {% endfor %}
+            </div>
+            <div class="card-footer d-flex justify-content-between flex-column">
+                <p class="my-0">Sorti le : {{ series.releaseDate|date("d/m/Y") }}</p>
+                <p class="my-0">Réalisateur : {{ series.director }}</p>
+            </div>
+            <div class="card-footer d-flex justify-content-between bg-white">
+                <div>
+                    <p class="my-0 h6">Ordre en en page d'accueil :
+                        {% if series.homeOrder != null %}
+                        {{ series.homeOrder }}
+                        {% else %}
+                        Pas en page d'accueil
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between bg-white">
+                <div>
+                    <p class="my-0 h6">Ajouté le : {{ series.createdAt|date("d/m/Y") }}</p>
+                </div>
+                <div>
+                    <p class="my-0 h6">Mis à jour le : {{ series.updatedAt|date("d/m/Y") }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="d-flex flex-wrap justify-content-between mx-4">
+            {% for actor in series.actor %}
+            <div class="card col-3 my-1 bg-white align-self-start">
+                <div class="bg-dark hover-overlay ripple text-center" data-mdb-ripple-color="light">
+                    <img style="height: 175px" src="{{ actor.image }}" class="img-fluid" />
+                </div>
+                <h4 class="card-header">{{ actor.name }}</h4>
+                <div class="card-footer d-flex flex-column justify-content-between bg-white">
+                    <div class="mb-1">
+                        <p class="my-0 h6">Ajouté le : {{ series.createdAt|date("d/m/Y") }}</p>
+                    </div>
+                    <div>
+                        <p class="my-0 h6">Mis à jour le : {{ series.updatedAt|date("d/m/Y") }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

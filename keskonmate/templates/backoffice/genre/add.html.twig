@@ -1,0 +1,69 @@
+{% extends 'backoffice/base.html.twig' %}
+
+{% block title %}
+    {% if page == 'create' %}
+        Creer un genre
+    {% else %}
+        {{ genre.name }}
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    
+
+{{ include('_partials/_flash_messages.html.twig') }}
+<h1> 
+    {% if page == 'create' %}
+        Ajouter un genre
+    {% else %}
+        Mettre à jour {{ genre.name }}
+    {% endif %}
+</h1>
+<div> 
+     <a href="{{ url('backoffice_genres_browse') }}" class="btn btn-primary" alt="List" title="List">
+     Retour
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+    </a>  
+</div>
+
+{{ form_start(genre_form) }}
+
+
+<div class="card col-3 my-1 bg-white align-self-start">
+    <h6 class="card-header">{{ form_row(genre_form.name) }}</h6>
+    {% if page != 'create' %}
+    <div class="card-footer d-flex flex-column justify-content-between bg-white">
+        <div class="mb-1">
+            <p class="my-0 h6">Ajouté le : {{ genre.createdAt|date("d/m/Y") }}</p>
+        </div>
+        {% if genre.updatedAt != null %}
+        <div>
+            <p class="my-0 h6">Mis à jour le : {{ genre.updatedAt|date("d/m/Y") }}</p>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+<div>  
+    <p>Séries :</p>
+    {{ form_row(genre_form.series) }}
+<div>
+
+
+    {{ form_errors(genre_form) }}
+
+    <button type="submit" class="btn btn-primary mt-4">
+    {% if 'backoffice_genres_add' == app.request.get('_route') %}
+    Create
+    {% else %}
+    Update
+    {% endif %}
+    </button>
+
+{{ form_end(genre_form) }} 
+
+</div>
+{% endblock %}

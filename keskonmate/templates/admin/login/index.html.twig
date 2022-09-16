@@ -1,0 +1,44 @@
+{% extends 'backoffice/base.html.twig' %}
+
+{# ... #}
+
+{% block body %}
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {{ include('_partials/_flash_messages.html.twig') }}
+
+    {# <form action="{{ path('login') }}" method="post">
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"> #}
+
+        {# If you want to control the URL the user is redirected to on success #}
+        {# <input type="hidden" name="go_to" value="{{ path('backoffice_homepage') }}"/>
+
+        <button type="submit">login</button>
+    </form> #}
+
+<div class="d-flex justify-content-center">
+    <div class="d-flex shadow mb-5 bg-white rounded card col-3">
+        <article class="align-self-center card-body col-10">
+            <h4 class="text-center card-title mb-4 mt-1">Connexion</h4>
+                <form action="{{ path('login') }}" method="post">
+                    <div class="form-group">
+                        <label for="email">Email :</label>
+                        <input type="text" id="username" class="form-control" name="_username" value="{{ last_username }}"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mot de passe :</label>
+                        <input type="password" id="password" class="form-control" name="_password"/>
+                    </div>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <input type="hidden" name="go_to" value="{{ path('backoffice_homepage') }}"/>
+                    <div class="form-group mt-2">
+                        <button type="submit" class="btn btn-primary btn-block">connexion</button>
+                    </div>                                               
+                </form>
+        </article>
+    </div>
+</div>
+{% endblock %}

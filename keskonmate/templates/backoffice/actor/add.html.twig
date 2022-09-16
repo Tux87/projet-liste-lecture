@@ -1,0 +1,72 @@
+{% extends 'backoffice/base.html.twig' %}
+
+{% block title %}
+    {% if page == 'create' %}
+        Ajouter un acteur
+    {% else %}
+        {{ actor.name }}
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    
+
+{{ include('_partials/_flash_messages.html.twig') }}
+<h1> 
+    {% if page == 'create' %}
+        Ajouter un acteur
+    {% else %}
+        Mettre à jour {{ actor.name }}
+    {% endif %}
+</h1>
+<div> 
+     <a href="{{ url('backoffice_actors_browse') }}" class="btn btn-primary" alt="List" title="List">
+     Retour
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+    </a>  
+</div>
+
+{{ form_start(actor_form) }}
+
+<div class="card col-3 my-1 bg-white align-self-start">
+    {% if page != 'create' %}
+    <div class="bg-dark hover-overlay ripple text-center" data-mdb-ripple-color="light">
+        <img style="height: 175px" src="{{ actor.image }}" class="img-fluid" />
+    </div>
+    {% endif %}
+    <h6 class="card-header border-0">{{ form_row(actor_form.image) }}</h6>
+    <h6 class="card-header">{{ form_row(actor_form.name) }}</h6>
+    {% if page != 'create' %}
+    <div class="card-footer d-flex flex-column justify-content-between bg-white">
+        <div class="mb-1">
+            <p class="my-0 h6">Ajouté le : {{ actor.createdAt|date("d/m/Y") }}</p>
+        </div>
+        {% if actor.updatedAt != null %}
+        <div>
+            <p class="my-0 h6">Mis à jour le : {{ actor.updatedAt|date("d/m/Y") }}</p>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+<div>  
+    <p>Séries :</p>
+    {{ form_row(actor_form.series) }}
+<div>
+    {{ form_errors(actor_form) }}
+
+    <button type="submit" class="btn btn-primary mt-4">
+    {% if 'backoffice_actors_add' == app.request.get('_route') %}
+    Create
+    {% else %}
+    Update
+    {% endif %}
+    </button>
+
+{{ form_end(actor_form) }} 
+
+</div>
+{% endblock %}
